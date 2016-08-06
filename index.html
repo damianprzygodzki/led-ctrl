@@ -3,20 +3,92 @@
     <title>Led ctrl</title>
     <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { text-align: center; }
-    h1 { text-align: center; }
+    *:focus {outline-width:0;}
+    body { text-align: center; display: flex; justify-content: center; flex-direction: column;}
+    h2 { text-align: center; }
+    .led-circle {margin: 100px;}
+    .row div {display:inline-block; width: 30px; height: 30px; line-height: 30px; text-align: center; position: relative;}
+    .m-t-1 { bottom: 20px; }
+    .m-t-2 { bottom: 30px; }
+    .m-l-1 { right: 20px; }
+    .m-l-2 { right: 30px; }
+    .m-r-1 { left: 20px; }
+    .m-r-2 { left: 30px; }
+    .m-b-1 { top: 20px; }
+    .m-b-2 { top: 30px; }
     </style>
 </head>
 <body>
-    <h1>Hi! Choose color!</h1>
-    <input type="color" onchange="colorChange(this.value)" />
+    <div>
+        <h2>Select LEDs to light, and set color</h2>
+    </div>
+    <div class="led-circle">
+        <div class="row">
+            <div tabindex="0" class="js-led">0</div>
+            <div tabindex="0" class="m-t-1 js-led">1</div>
+            <div tabindex="0" class="m-t-2 js-led">2</div>
+            <div tabindex="0" class="m-t-1 js-led">3</div>
+            <div tabindex="0" class="js-led">4</div>
+        </div>
+        <div class="row">
+            <div tabindex="0" class="m-l-1 js-led">15</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div tabindex="0" class="m-r-1 js-led">5</div>
+        </div>
+        <div class="row">
+            <div tabindex="0" class="m-l-2 js-led">14</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div tabindex="0" class="m-r-2 js-led">6</div>
+        </div>
+        <div class="row">
+            <div tabindex="0" class="m-l-1 js-led">13</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div tabindex="0" class="m-r-1 js-led">7</div>
+        </div>
+        <div class="row">
+            <div tabindex="0" class="js-led">12</div>
+            <div tabindex="0" class="m-b-1 js-led">11</div>
+            <div tabindex="0" class="m-b-2 js-led">10</div>
+            <div tabindex="0" class="m-b-1 js-led">9</div>
+            <div tabindex="0" class="js-led">8</div>
+        </div>
+    </div>
+    <div>
+        <input type="color" onchange="colorChange(this.value)" />
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
     var socket = io();
+    var leds = document.getElementsByClassName("js-led");
+
+    for(let i = 0; i < leds.length; i++){
+        leds[i].addEventListener('click', (e) => {
+            if(e.target.classList.contains('js-led-selected')){
+                e.target.classList.remove('js-led-selected');
+                e.target.style.border = "0px";
+            }else{
+                e.target.classList.add('js-led-selected');
+                e.target.style.border = "1px solid #333";
+            }
+        });
+    }
 
     colorChange = (color) => {
-        socket.emit('colorChange', color);
+        var ledsSelected = document.getElementsByClassName("js-led-selected");
+        var ledsId = [];
+        for(let i = 0; i < ledsSelected.length; i++){
+            ledsSelected[i].style.backgroundColor = color;
+            ledsId.push(ledsSelected[i].innerHTML);
+        }
+
+        socket.emit('colorChange', color, ledsId);
     }
     </script>
 </body>

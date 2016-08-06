@@ -19,9 +19,11 @@ function parseHtmlColor(color) {
     return parseInt(color,16);
 }
 
-function renderAll(color) {
+function renderAll(color,ids) {
     for(var i = 0; i < NUM_LEDS; i++) {
-        pixelData[i] = color;
+        if(ids.indexOf(i) > -1){
+            pixelData[i] = color;
+        }
     }
     ws.render(pixelData);
 }
@@ -31,8 +33,8 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-    socket.on('colorChange', function(color){
-        renderAll(parseHtmlColor(color));
+    socket.on('colorChange', function(color, ids){
+        renderAll(parseHtmlColor(color, ids));
     });
 });
 
