@@ -1,23 +1,23 @@
 <html>
-    <head>
-        <title>Led ctrl</title>
-        <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-       	body { text-align: center; }
-	h1 { text-align: center; }
-	 </style>
-    </head>
-    <body>
-        <h1>Hi! Choose color!</h1>
-        <input type="color" onchange="colorChange(this.value)" />
+<head>
+    <title>Led ctrl</title>
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { text-align: center; }
+    h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Hi! Choose color!</h1>
+    <input type="color" onchange="colorChange(this.value)" />
 
-	<script src="/socket.io/socket.io.js"></script>
-	<script>
-  		var socket = io();
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    var socket = io();
 
-		colorChange = (color) => {
-			socket.emit('colorChange', color);
-		}
-	</script>
-    </body>
+    colorChange = (color) => {
+        socket.emit('colorChange', color);
+    }
+    </script>
+</body>
 </html>
