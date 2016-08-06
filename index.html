@@ -85,7 +85,7 @@
         var ledsId = [];
         for(let i = 0; i < ledsSelected.length; i++){
             ledsSelected[i].style.backgroundColor = color;
-            ledsId.push(ledsSelected[i].innerHTML);
+            ledsId.push(parseInt(ledsSelected[i].innerHTML,10));
         }
 
         socket.emit('colorChange', color, ledsId);

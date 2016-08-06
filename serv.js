@@ -34,7 +34,7 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
     socket.on('colorChange', function(color, ids){
-        renderAll(parseHtmlColor(color, ids));
+        renderAll(parseHtmlColor(color),ids);
     });
 });
 
