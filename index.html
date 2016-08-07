@@ -24,42 +24,43 @@
     </div>
     <div class="led-circle">
         <div class="row">
-            <div tabindex="0" class="js-led">0</div>
+            <div tabindex="0" class="js-led">14</div>
+            <div tabindex="0" class="m-t-1 js-led">15</div>
+            <div tabindex="0" class="m-t-2 js-led">0</div>
             <div tabindex="0" class="m-t-1 js-led">1</div>
-            <div tabindex="0" class="m-t-2 js-led">2</div>
-            <div tabindex="0" class="m-t-1 js-led">3</div>
-            <div tabindex="0" class="js-led">4</div>
-        </div>
-        <div class="row">
-            <div tabindex="0" class="m-l-1 js-led">15</div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div tabindex="0" class="m-r-1 js-led">5</div>
-        </div>
-        <div class="row">
-            <div tabindex="0" class="m-l-2 js-led">14</div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div tabindex="0" class="m-r-2 js-led">6</div>
+            <div tabindex="0" class="js-led">2</div>
         </div>
         <div class="row">
             <div tabindex="0" class="m-l-1 js-led">13</div>
             <div></div>
             <div></div>
             <div></div>
-            <div tabindex="0" class="m-r-1 js-led">7</div>
+            <div tabindex="0" class="m-r-1 js-led">3</div>
         </div>
         <div class="row">
-            <div tabindex="0" class="js-led">12</div>
-            <div tabindex="0" class="m-b-1 js-led">11</div>
-            <div tabindex="0" class="m-b-2 js-led">10</div>
+            <div tabindex="0" class="m-l-2 js-led">12</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div tabindex="0" class="m-r-2 js-led">4</div>
+        </div>
+        <div class="row">
+            <div tabindex="0" class="m-l-1 js-led">11</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div tabindex="0" class="m-r-1 js-led">5</div>
+        </div>
+        <div class="row">
+            <div tabindex="0" class="js-led">10</div>
             <div tabindex="0" class="m-b-1 js-led">9</div>
-            <div tabindex="0" class="js-led">8</div>
+            <div tabindex="0" class="m-b-2 js-led">8</div>
+            <div tabindex="0" class="m-b-1 js-led">7</div>
+            <div tabindex="0" class="js-led">6</div>
         </div>
     </div>
     <div>
+	<button onclick="selectAll()">Select all</button>
         <input type="color" onchange="colorChange(this.value)" />
     </div>
 
@@ -78,6 +79,12 @@
                 e.target.style.border = "1px solid #333";
             }
         });
+    }
+
+    selectAll = () => {
+	for(let i = 0; i < leds.length; i++){
+	    leds[i].click();
+	}
     }
 
     colorChange = (color) => {
