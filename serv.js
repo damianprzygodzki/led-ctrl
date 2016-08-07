@@ -3,14 +3,40 @@ var express = require('express');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var ws = require('rpi-ws281x-native');
+var ds = require('ds18b20');
+var lcd = require('lcd');
 
+// LED init
 const NUM_LEDS = 16;
 var pixelData = new Uint32Array(NUM_LEDS);
+// LCD init
+const lcdIns = new Lcd({
+    rs: 16,
+    e: 12,
+    data: [26, 19, 13, 6],
+    cols: 8,
+    rows: 2
+});
+// THERM init
+ds.sensors(function(err, ids) {
+    const thermo = ids[0];
+});
 
 ws.init(NUM_LEDS);
 
+lcd.on('ready', function() {
+    lcd.setCursor(0, 0);
+    setTimeout(function() {
+        ds.temperature(thermo, function(err, value) {
+            lcd.print(value);
+        });
+    }, 5000);
+});
+
 process.on('SIGINT', function () {
-    ws281x.reset();
+    ws.reset();
+    lcd.clear();
+    lcd.close();
     process.nextTick(function () { process.exit(0); });
 });
 
