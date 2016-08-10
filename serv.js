@@ -10,7 +10,7 @@ var lcd = require('lcd');
 const NUM_LEDS = 16;
 var pixelData = new Uint32Array(NUM_LEDS);
 // LCD init
-const lcdIns = new Lcd({
+const lcdIns = new lcd({
     rs: 16,
     e: 12,
     data: [26, 19, 13, 6],
@@ -18,25 +18,29 @@ const lcdIns = new Lcd({
     rows: 2
 });
 // THERM init
+var thermo = null;
 ds.sensors(function(err, ids) {
-    const thermo = ids[0];
+    thermo = ids[0];
 });
 
 ws.init(NUM_LEDS);
 
-lcd.on('ready', function() {
-    lcd.setCursor(0, 0);
-    setTimeout(function() {
-        ds.temperature(thermo, function(err, value) {
-            lcd.print(value);
-        });
-    }, 5000);
+lcdIns.on('ready', function() {
+    lcdIns.setCursor(0, 0);
+    setInterval(function() {
+	if(thermo){
+        	ds.temperature(thermo, function(err, value) {
+            		lcdIns.clear();
+			lcdIns.print(value);
+        	});
+	}
+    }, 1000);
 });
 
 process.on('SIGINT', function () {
     ws.reset();
-    lcd.clear();
-    lcd.close();
+    lcdIns.clear();
+    lcdIns.close();
     process.nextTick(function () { process.exit(0); });
 });
 

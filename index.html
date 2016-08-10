@@ -7,7 +7,7 @@
     body { text-align: center; display: flex; justify-content: center; flex-direction: column;}
     h2 { text-align: center; }
     .led-circle {margin: 100px;}
-    .row div {display:inline-block; width: 30px; height: 30px; line-height: 30px; text-align: center; position: relative;}
+    .row div {display:inline-block; border-radius: 50%; width: 30px; height: 30px; line-height: 30px; text-align: center; position: relative;}
     .m-t-1 { bottom: 20px; }
     .m-t-2 { bottom: 30px; }
     .m-l-1 { right: 20px; }
@@ -73,10 +73,10 @@
         leds[i].addEventListener('click', (e) => {
             if(e.target.classList.contains('js-led-selected')){
                 e.target.classList.remove('js-led-selected');
-                e.target.style.border = "0px";
+                e.target.style.outline = "0px";
             }else{
                 e.target.classList.add('js-led-selected');
-                e.target.style.border = "1px solid #333";
+                e.target.style.outline = "solid #333";
             }
         });
     }
