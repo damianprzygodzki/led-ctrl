@@ -28,12 +28,12 @@ ws.init(NUM_LEDS);
 lcdIns.on('ready', function() {
     lcdIns.setCursor(0, 0);
     setInterval(function() {
-	if(thermo){
-        	ds.temperature(thermo, function(err, value) {
-            		lcdIns.clear();
-			lcdIns.print(value);
-        	});
-	}
+        if(thermo){
+            ds.temperature(thermo, function(err, value) {
+                lcdIns.clear();
+                lcdIns.print(value);
+            });
+        }
     }, 1000);
 });
 
@@ -51,11 +51,24 @@ function parseHtmlColor(color) {
 
 function renderAll(color,ids) {
     for(var i = 0; i < NUM_LEDS; i++) {
-        if(ids.indexOf(i) > -1){
+        if(ids === "all"){
+            pixelData[i] = color;
+        }else if(ids.indexOf(i) > -1){
             pixelData[i] = color;
         }
     }
     ws.render(pixelData);
+}
+
+function getRandomColorPart() {
+    return parseInt(Math.floor((Math.random() * 255) + 1), 16);
+}
+
+function randomFade() {
+    setInterval(function(){
+        const color = "#" + getRandomColorPart() + getRandomColorPart() + getRandomColorPart();
+        renderAll(parseHtmlColor(color, "all"));
+    },30000);
 }
 
 app.get('/', function(req, res){
@@ -65,6 +78,9 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
     socket.on('colorChange', function(color, ids){
         renderAll(parseHtmlColor(color),ids);
+    });
+    socket.on('colorAutoFade', function(){
+        randomFade();
     });
 });
 

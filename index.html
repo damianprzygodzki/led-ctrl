@@ -60,7 +60,7 @@
         </div>
     </div>
     <div>
-	<button onclick="selectAll()">Select all</button>
+        <button onclick="selectAll()">Select all</button>
         <input type="color" onchange="colorChange(this.value)" />
     </div>
 
@@ -82,9 +82,13 @@
     }
 
     selectAll = () => {
-	for(let i = 0; i < leds.length; i++){
-	    leds[i].click();
-	}
+        for(let i = 0; i < leds.length; i++){
+            leds[i].click();
+        }
+    }
+
+    colorAutoFade = () => {
+        socket.emit('colorAutoFade');
     }
 
     colorChange = (color) => {
